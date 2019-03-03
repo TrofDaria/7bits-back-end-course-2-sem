@@ -13,9 +13,11 @@ public class TasksServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if ((req.getParameterMap()).size() == 0) {
+            resp.setStatus(404, "Incorrect number of parameters");
+            return;
+        }
         TaskRepository tasks = TaskRepository.getInstance();
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         String[] array = new String[tasks.size() + 1];
 
         for (int i = 0; i < tasks.size(); i++) {
@@ -30,6 +32,8 @@ public class TasksServlet extends HttpServlet {
             }
         }
         stringBuilder.append("]}");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(stringBuilder.toString());
         resp.setStatus(200, "The array of tasks");
     }
@@ -37,12 +41,18 @@ public class TasksServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String task = req.getParameter("name");
+        if (task == null) {
+            resp.setStatus(404, "Empty name parameter");
+            return;
+        }
         TaskRepository tasks = TaskRepository.getInstance();
+        tasks.addTask(task);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        String task = req.getParameter("name");
-        tasks.addTask(task);
+        resp.getWriter().write(String.format("{\"id\": %s, \"name\": \"%s\"}",
+                (tasks.size() - 1),
+                tasks.getTask(tasks.size() - 1)));
         resp.setStatus(201, "Created task");
-        resp.getWriter().write("{ \"Created task\" }");
     }
 }
