@@ -1,7 +1,7 @@
-package it.sevenbits.courses.practices.base.spring.config;
+package it.sevenbits.courses.homeworks.base.spring.config;
 
-import it.sevenbits.courses.practices.base.spring.core.repository.InMemoryTasksRepository;
-import it.sevenbits.courses.practices.base.spring.core.repository.TasksRepository;
+import it.sevenbits.courses.homeworks.base.spring.core.repository.InMemoryTasksRepository;
+import it.sevenbits.courses.homeworks.base.spring.core.repository.TasksRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

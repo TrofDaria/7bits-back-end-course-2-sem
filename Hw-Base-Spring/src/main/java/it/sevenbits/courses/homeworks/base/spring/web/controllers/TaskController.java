@@ -1,7 +1,7 @@
-package it.sevenbits.courses.practices.base.spring.web.controllers;
+package it.sevenbits.courses.homeworks.base.spring.web.controllers;
 
-import it.sevenbits.courses.practices.base.spring.core.repository.TasksRepository;
-import it.sevenbits.courses.practices.base.spring.core.model.Task;
+import it.sevenbits.courses.homeworks.base.spring.core.repository.TasksRepository;
+import it.sevenbits.courses.homeworks.base.spring.core.model.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

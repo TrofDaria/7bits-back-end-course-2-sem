@@ -1,4 +1,4 @@
-package it.sevenbits.courses.practices.base.spring;
+package it.sevenbits.courses.homeworks.base.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

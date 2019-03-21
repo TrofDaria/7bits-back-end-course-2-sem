@@ -1,7 +1,7 @@
-package it.sevenbits.courses.practices.base.spring.core.repository;
+package it.sevenbits.courses.homeworks.base.spring.core.repository;
 
 
-import it.sevenbits.courses.practices.base.spring.core.model.Task;
+import it.sevenbits.courses.homeworks.base.spring.core.model.Task;
 
 import java.util.List;
 import java.util.UUID;

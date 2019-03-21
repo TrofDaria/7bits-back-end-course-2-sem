@@ -1,7 +1,7 @@
-package it.sevenbits.courses.practices.base.spring.web.controllers;
+package it.sevenbits.courses.homeworks.base.spring.web.controllers;
 
-import it.sevenbits.courses.practices.base.spring.core.repository.TasksRepository;
-import it.sevenbits.courses.practices.base.spring.core.model.Task;
+import it.sevenbits.courses.homeworks.base.spring.core.model.Task;
+import it.sevenbits.courses.homeworks.base.spring.core.repository.TasksRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/tasks")
 public class TasksController {
-    private final TasksRepository TasksRepository;
+    private final it.sevenbits.courses.homeworks.base.spring.core.repository.TasksRepository TasksRepository;
 
     public TasksController(TasksRepository TasksRepository) {
         this.TasksRepository = TasksRepository;

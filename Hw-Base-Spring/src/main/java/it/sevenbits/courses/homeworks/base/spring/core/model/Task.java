@@ -1,4 +1,4 @@
-package it.sevenbits.courses.practices.base.spring.core.model;
+package it.sevenbits.courses.homeworks.base.spring.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
