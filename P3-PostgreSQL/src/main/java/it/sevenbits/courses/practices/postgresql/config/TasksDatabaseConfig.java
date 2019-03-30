@@ -1,4 +1,4 @@
-package it.sevenbits.courses.practices.base.postgresql.config;
+package it.sevenbits.courses.practices.postgresql.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.flyway.FlywayDataSource;
@@ -11,15 +11,33 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
+/**
+ * Configures tasks database.
+ *
+ * @author Daria Trofimova
+ * @version 1.0
+ * @since 2019-03-29
+ */
 @Configuration
 public class TasksDatabaseConfig {
+
+    /**
+     * Returns jdbsOperations object for database manipulation.
+     *
+     * @param tasksDataSource - task data source.
+     * @return jdbsOperations.
+     */
     @Bean
     @Qualifier("tasksJdbcOperations")
-    public JdbcOperations tasksJdbcOperations( @Qualifier("tasksDataSource") DataSource tasksDataSource) {
+    public JdbcOperations tasksJdbcOperations(@Qualifier("tasksDataSource") final DataSource tasksDataSource) {
         return new JdbcTemplate(tasksDataSource);
     }
 
-
+    /**
+     * Returns data source.
+     *
+     * @return data source.
+     */
     @Bean
     @Qualifier("tasksDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.tasks")
