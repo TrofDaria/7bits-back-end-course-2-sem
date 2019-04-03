@@ -1,6 +1,5 @@
 package it.sevenbits.courses.practices.postgresql.core.repository;
 
-import it.sevenbits.courses.practices.postgresql.core.model.AddTaskRequest;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 
 import java.util.List;
@@ -25,10 +24,10 @@ public interface TasksRepository {
     /**
      * Creates new task based on a given task.
      *
-     * @param addTaskRequest - add task request.
+     * @param task - task.
      * @return new task.
      */
-    Task create(final AddTaskRequest addTaskRequest);
+    Task create(final Task task);
 
     /**
      * Returns task by id.
@@ -59,16 +58,7 @@ public interface TasksRepository {
      *
      * @param id   - task id.
      * @param task - task.
-     * @return true if update was successful.
+     * @return updated task.
      */
-    boolean updateTask(final UUID id, final Task task);
-
-    /**
-     * Determines whether status is legit or not.
-     *
-     * @param status - status.
-     * @return true if status legit, false otherwise.
-     */
-    boolean isStatusLegit(final String status);
-
+    Task updateTask(final UUID id, final Task task);
 }

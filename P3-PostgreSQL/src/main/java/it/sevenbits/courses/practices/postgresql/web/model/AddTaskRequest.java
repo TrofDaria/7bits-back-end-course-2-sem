@@ -1,4 +1,4 @@
-package it.sevenbits.courses.practices.postgresql.core.model;
+package it.sevenbits.courses.practices.postgresql.web.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

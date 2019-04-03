@@ -1,13 +1,12 @@
 package it.sevenbits.courses.practices.postgresql.core.repository;
 
-import it.sevenbits.courses.practices.postgresql.core.model.AddTaskRequest;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -19,8 +18,6 @@ import java.util.UUID;
  */
 public class DatabaseTasksRepository implements TasksRepository {
     private JdbcOperations jdbcOperations;
-    private Set<String> availableStatuses;
-    private final String defaultStatus = "inbox";
 
     /**
      * Constructor.
@@ -29,9 +26,6 @@ public class DatabaseTasksRepository implements TasksRepository {
      */
     public DatabaseTasksRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
-        availableStatuses = new HashSet<>();
-        availableStatuses.add("inbox");
-        availableStatuses.add("done");
     }
 
     /**
@@ -52,7 +46,6 @@ public class DatabaseTasksRepository implements TasksRepository {
                 });
     }
 
-
     /**
      * Returns all task with given status.
      *
@@ -67,29 +60,17 @@ public class DatabaseTasksRepository implements TasksRepository {
     /**
      * Creates new task based on a given task.
      *
-     * @param addTaskRequest - add task request.
+     * @param task - task.
      * @return new task.
      */
     @Override
-    public Task create(final AddTaskRequest addTaskRequest) {
-        UUID id = getNextId();
-        String text = addTaskRequest.getText();
-        String status = defaultStatus;
-        Date createdAt = new Date();
+    public Task create(final Task task) {
         int rows = jdbcOperations.update(
                 "INSERT INTO task (id, text, status, created_at) VALUES (?, ?, ?, ?)",
-                id, text, status, createdAt
+                task.getId(), task.getText(), task.getStatus(), task.getCreatedAt()
         );
-        return new Task(id, text, status, createdAt);
-    }
 
-    /**
-     * Returns id for new task.
-     *
-     * @return id.
-     */
-    private UUID getNextId() {
-        return UUID.randomUUID();
+        return task;
     }
 
     /**
@@ -119,21 +100,10 @@ public class DatabaseTasksRepository implements TasksRepository {
      *
      * @param id   - task id.
      * @param task - task.
-     * @return true if update was successful.
+     * @return updated task.
      */
     @Override
-    public boolean updateTask(final UUID id, final Task task) {
-        return false;
-    }
-
-    /**
-     * Determines whether status is legit or not.
-     *
-     * @param status - status.
-     * @return true if status legit, false otherwise.
-     */
-    @Override
-    public boolean isStatusLegit(final String status) {
-        return availableStatuses.contains(status);
+    public Task updateTask(final UUID id, final Task task) {
+        return null;
     }
 }

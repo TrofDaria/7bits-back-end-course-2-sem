@@ -1,6 +1,7 @@
 package it.sevenbits.courses.practices.postgresql.web.controllers;
 
-import it.sevenbits.courses.practices.postgresql.core.model.AddTaskRequest;
+import it.sevenbits.courses.practices.postgresql.core.service.TasksService;
+import it.sevenbits.courses.practices.postgresql.web.model.AddTaskRequest;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 import it.sevenbits.courses.practices.postgresql.core.repository.TasksRepository;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,8 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/tasks")
 public class TasksController {
-    private final it.sevenbits.courses.practices.postgresql.core.repository.TasksRepository TasksRepository;
+    private final TasksRepository TasksRepository;
+    private TasksService tasksService;
 
     /**
      * Constructor.
@@ -40,6 +42,8 @@ public class TasksController {
      */
     public TasksController(final TasksRepository TasksRepository) {
         this.TasksRepository = TasksRepository;
+        tasksService = new TasksService();
+
     }
 
     /**
@@ -63,7 +67,7 @@ public class TasksController {
     @RequestMapping(method = RequestMethod.GET, params = "status")
     @ResponseBody
     public ResponseEntity<List<Task>> getAllByStatus(@NotNull @RequestParam("status") final String status) {
-        if (!TasksRepository.isStatusLegit(status)) {
+        if (!tasksService.isStatusLegit(status)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(TasksRepository.getTasksByStatus(status));
@@ -78,8 +82,7 @@ public class TasksController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Task> create(@Valid @NotNull @RequestBody final AddTaskRequest addTaskRequest) {
-
-        Task createdTask = TasksRepository.create(addTaskRequest);
+        Task createdTask = TasksRepository.create(tasksService.formTask(addTaskRequest));
         URI location = UriComponentsBuilder.fromPath("/Tasks/")
                 .path(String.valueOf(createdTask.getId()))
                 .build().toUri();
@@ -130,14 +133,14 @@ public class TasksController {
     public ResponseEntity patch(
             @Valid @NotNull @PathVariable("id") final UUID id,
             @NotNull @RequestBody final Task newTask) {
-        if (!TasksRepository.isStatusLegit(newTask.getStatus()) && newTask.getStatus() != null) {
+        if (!tasksService.isStatusLegit(newTask.getStatus()) && newTask.getStatus() != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         Task task = TasksRepository.getTask(id);
         if (task == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        if (!TasksRepository.updateTask(id, newTask)) {
+        if (TasksRepository.updateTask(id, newTask) == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);

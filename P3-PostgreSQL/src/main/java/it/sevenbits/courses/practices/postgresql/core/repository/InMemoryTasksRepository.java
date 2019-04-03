@@ -1,7 +1,5 @@
 package it.sevenbits.courses.practices.postgresql.core.repository;
 
-
-import it.sevenbits.courses.practices.postgresql.core.model.AddTaskRequest;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 
 import java.util.ArrayList;
@@ -65,14 +63,14 @@ public class InMemoryTasksRepository implements TasksRepository {
     /**
      * Creates new task based on a given task.
      *
-     * @param addTaskRequest - add task request.
+     * @param task - task.
      * @return new task.
      */
     @Override
-    public Task create(final AddTaskRequest addTaskRequest) {
-        Task task = new Task(getNextID(), addTaskRequest.getText(), "inbox", new Date());
-        tasks.put(task.getId(), task);
-        return task;
+    public Task create(final Task task) {
+        Task newTask = new Task(getNextID(), task.getText(), "inbox", new Date());
+        tasks.put(newTask.getId(), task);
+        return newTask;
 
     }
 
@@ -108,10 +106,10 @@ public class InMemoryTasksRepository implements TasksRepository {
      *
      * @param id   - task id.
      * @param task - task.
-     * @return true if update was successful.
+     * @return updated task.
      */
     @Override
-    public boolean updateTask(final UUID id, final Task task) {
+    public Task updateTask(final UUID id, final Task task) {
         Task oldTask = tasks.get(id);
         String newText = task.getText();
         boolean modified = false;
@@ -124,17 +122,6 @@ public class InMemoryTasksRepository implements TasksRepository {
             oldTask.setStatus(newStatus);
             modified = true;
         }
-        return modified;
-    }
-
-    /**
-     * Determines whether status is legit or not.
-     *
-     * @param status - status.
-     * @return true if status legit, false otherwise.
-     */
-    @Override
-    public boolean isStatusLegit(final String status) {
-        return false;
+        return null;
     }
 }
