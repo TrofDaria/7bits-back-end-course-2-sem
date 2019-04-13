@@ -1,9 +1,9 @@
 package it.sevenbits.courses.practices.postgresql.web.controllers;
 
-import it.sevenbits.courses.practices.postgresql.core.service.TasksService;
-import it.sevenbits.courses.practices.postgresql.web.model.AddTaskRequest;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 import it.sevenbits.courses.practices.postgresql.core.repository.TasksRepository;
+import it.sevenbits.courses.practices.postgresql.core.service.TasksService;
+import it.sevenbits.courses.practices.postgresql.web.model.AddTaskRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/tasks")
 public class TasksController {
-    private final TasksRepository TasksRepository;
+    private final it.sevenbits.courses.practices.postgresql.core.repository.TasksRepository TasksRepository;
     private TasksService tasksService;
 
     /**

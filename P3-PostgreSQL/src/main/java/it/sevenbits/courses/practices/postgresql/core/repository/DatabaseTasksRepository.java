@@ -2,8 +2,6 @@ package it.sevenbits.courses.practices.postgresql.core.repository;
 
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.Date;
 import java.util.List;

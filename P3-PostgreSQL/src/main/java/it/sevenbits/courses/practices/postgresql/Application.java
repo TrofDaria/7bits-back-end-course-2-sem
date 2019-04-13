@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main application entry point.
  */
 @SpringBootApplication
-public class    Application {
+public class Application {
     /**
      * Main function for app.
      *

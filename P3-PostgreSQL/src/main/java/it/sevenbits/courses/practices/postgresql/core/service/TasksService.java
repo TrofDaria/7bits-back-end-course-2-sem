@@ -3,7 +3,11 @@ package it.sevenbits.courses.practices.postgresql.core.service;
 import it.sevenbits.courses.practices.postgresql.core.model.Task;
 import it.sevenbits.courses.practices.postgresql.web.model.AddTaskRequest;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 
 /**
  * Service for tasks.
@@ -28,6 +32,7 @@ public class TasksService {
     /**
      * Creates task based on add task request.
      *
+     * @param addTaskRequest - add task request.
      * @return created task.
      */
     public Task formTask(final AddTaskRequest addTaskRequest) {
