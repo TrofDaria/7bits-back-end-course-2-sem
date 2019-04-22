@@ -76,16 +76,16 @@ public class TasksController {
      * Creates new task.
      *
      * @param addTaskRequest - add task request to use for creation.
-     * @return ResponseEntity with created task.
+     * @return ResponseEntity with status.
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Task> create(@Valid @NotNull @RequestBody final AddTaskRequest addTaskRequest) {
+    public ResponseEntity create(@Valid @NotNull @RequestBody final AddTaskRequest addTaskRequest) {
         Task createdTask = tasksService.create(addTaskRequest);
-        URI location = UriComponentsBuilder.fromPath("/Tasks/")
+        URI location = UriComponentsBuilder.fromPath("/tasks/")
                 .path(String.valueOf(createdTask.getId()))
                 .build().toUri();
-        return ResponseEntity.created(location).body(createdTask);
+        return ResponseEntity.created(location).body(null);
     }
 
     /**
@@ -136,18 +136,10 @@ public class TasksController {
         if (!tasksService.isTaskExists(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        if (updateTaskRequest.getStatus() != null) {
-            if (!tasksService.isStatusLegit(updateTaskRequest.getStatus())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-        }
-        if (updateTaskRequest.getStatus() == null && updateTaskRequest.getText() == null) {
+        if (!tasksService.isUpdateTaskRequestValid(updateTaskRequest)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
-        if (tasksService.updateTask(id, updateTaskRequest) == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        tasksService.updateTask(id, updateTaskRequest);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }

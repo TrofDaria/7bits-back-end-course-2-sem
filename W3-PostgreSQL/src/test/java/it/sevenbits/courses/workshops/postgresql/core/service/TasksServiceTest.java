@@ -71,6 +71,7 @@ public class TasksServiceTest {
 
         Task task = tasksService.create(mockAddTaskRequest);
         verify(mockTasksRepository, times(1)).create(any(Task.class));
+        assertSame(mockTask, task);
 
     }
 

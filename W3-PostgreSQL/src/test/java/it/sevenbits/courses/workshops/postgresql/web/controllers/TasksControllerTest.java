@@ -62,7 +62,6 @@ public class TasksControllerTest {
 
     @Test
     public void testDeleteTask() {
-        Task mockTask = mock(Task.class);
         when(mockTasksService.deleteTask(any())).thenReturn(true);
         when(mockTasksService.isTaskExists(any())).thenReturn(true);
         ResponseEntity answer = tasksController.deleteTask(any());
@@ -77,11 +76,10 @@ public class TasksControllerTest {
         Task mockTask = mock(Task.class);
         when(mockTasksService.create(any())).thenReturn(mockTask);
 
-        ResponseEntity<Task> answer = tasksController.create(any(AddTaskRequest.class));
+        ResponseEntity answer = tasksController.create(any(AddTaskRequest.class));
 
         verify(mockTasksService, times(1)).create(any());
         assertEquals(HttpStatus.CREATED, answer.getStatusCode());
-        assertSame(mockTask, answer.getBody());
     }
 
     @Test
@@ -91,9 +89,11 @@ public class TasksControllerTest {
 
         when(mockTasksService.updateTask(any(UUID.class), any(UpdateTaskRequest.class))).thenReturn(mockTask);
         when(mockTasksService.isTaskExists(any())).thenReturn(true);
+        when(mockTasksService.isUpdateTaskRequestValid(any())).thenReturn(true);
         ResponseEntity answer = tasksController.patch(UUID.randomUUID(), mockUpdateTaskRequest);
         verify(mockTasksService, times(1)).updateTask(any(UUID.class), any(UpdateTaskRequest.class));
         verify(mockTasksService, times(1)).isTaskExists(any());
+        verify(mockTasksService, times(1)).isUpdateTaskRequestValid(mockUpdateTaskRequest);
         assertEquals(HttpStatus.OK, answer.getStatusCode());
     }
 

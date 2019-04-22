@@ -5,7 +5,11 @@ import it.sevenbits.courses.workshops.postgresql.core.repository.TasksRepository
 import it.sevenbits.courses.workshops.postgresql.web.model.AddTaskRequest;
 import it.sevenbits.courses.workshops.postgresql.web.model.UpdateTaskRequest;
 
-import java.util.*;
+import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 
 /**
@@ -154,5 +158,22 @@ public class TasksService {
         return tasksRepository.updateTask(
                 id,
                 formUpdatedTask(tasksRepository.getTask(id), updateTaskRequest));
+    }
+
+    /**
+     * Determines whether update task request valid or not.
+     *
+     * @param updateTaskRequest - update task request.
+     * @return true if request valid, false otherwise.
+     */
+    public boolean isUpdateTaskRequestValid(final UpdateTaskRequest updateTaskRequest) {
+        String text = updateTaskRequest.getText();
+        String status = updateTaskRequest.getStatus();
+        if (status != null) {
+            if (!isStatusLegit(status)) {
+                return false;
+            }
+        }
+        return status != null || text != null;
     }
 }
